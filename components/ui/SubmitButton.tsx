@@ -29,7 +29,6 @@ const SubmitButton = ({ isLoading, className, children }: ButtonProps) => {
       ) : (
         children
       )}
-      Get Started
     </Button>
   );
 };

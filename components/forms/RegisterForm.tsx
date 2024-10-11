@@ -80,7 +80,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         insuranceProvider: values.insuranceProvider,
         insurancePolicyNumber: values.insurancePolicyNumber,
         allergies: values.allergies,
-        currentMedication: values.currentMedication,
+        currentMedications: values.currentMedication,
         familyMedicalHistory: values.familyMedicalHistory,
         pastMedicalHistory: values.pastMedicalHistory,
         identificationType: values.identificationType,
@@ -286,7 +286,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             <CustomFormField
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}
-              name="currentMedication"
+              name="currentMedications"
               label="Current medications"
               placeholder="Ibuprofen 200mg, Levothyroxine 50mcg"
             />

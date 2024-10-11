@@ -1,5 +1,5 @@
 "use server";
-
+import * as sdk from "node-appwrite";
 import { ID, Query } from "node-appwrite";
 import { InputFile } from "node-appwrite/file";
 import {
@@ -34,7 +34,7 @@ export interface RegisterUserParams extends CreateUserParams {
   insuranceProvider?: string;
   insurancePolicyNumber?: string;
   allergies?: string | undefined;
-  currentMedication?: string | undefined;
+  currentMedications?: string | undefined;
   familyMedicalHistory?: string | undefined;
   pastMedicalHistory?: string | undefined;
   identificationType?: string | undefined;
@@ -123,13 +123,15 @@ export const registerPatient = async ({
 
 // GET PATIENT
 export const getPatient = async (userId: string) => {
+  const filters = [sdk.Query.equal("userId", [userId])];
   try {
+    console.log("running");
     const patients = await databases.listDocuments(
       NEXT_PUBLIC_DATABASE_ID!,
-      NEXT_PUBLIC_PATIENT_COLLECTION_ID!,
-      [Query.equal("userId", [userId])]
+      NEXT_PUBLIC_PATIENT_COLLECTION_ID!
+      // filters
     );
-
+    console.log("p", patients);
     return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(

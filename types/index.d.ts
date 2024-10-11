@@ -5,7 +5,7 @@ export interface SearchParamProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export type Gender = "Male" | "Female" | "Other";
+export type Gender = "male" | "female" | "other";
 
 export type Status = "pending" | "scheduled" | "cancelled";
 
@@ -31,7 +31,7 @@ export interface RegisterUserParams extends CreateUserParams {
   insuranceProvider?: string;
   insurancePolicyNumber?: string;
   allergies?: string | undefined;
-  currentMedication?: string | undefined;
+  currentMedications?: string | undefined;
   familyMedicalHistory?: string | undefined;
   pastMedicalHistory?: string | undefined;
   identificationType?: string | undefined;
