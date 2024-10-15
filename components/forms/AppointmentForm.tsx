@@ -33,6 +33,7 @@ import { Status } from "@/types";
 import {
   createAppointment,
   updateAppointment,
+  cancelAppointment,
 } from "@/lib/actions/appointment.actions";
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -129,7 +130,10 @@ const AppointmentForm = ({
           appointment: {
             primaryPhysician: values?.primaryPhysician,
             schedule: new Date(values?.schedule),
-            status: status as Status,
+            status:
+              type === "schedule"
+                ? (status = "scheduled")
+                : (status = "cancelled"),
             cancellationReason: values?.cancellationReason,
           },
           type,
@@ -141,6 +145,14 @@ const AppointmentForm = ({
           form.reset();
         }
       }
+      // else {
+      //   const appointmentId = appointment?.$id!;
+      //   const deletedAppointment = await cancelAppointment({ appointmentId });
+      //   if (deletedAppointment) {
+      //     setOpen && setOpen(false);
+      //     form.reset();
+      //   }
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -173,9 +185,8 @@ const AppointmentForm = ({
             <h1 className="header">New Appointment 👋 </h1>
             <p className="text-dark-700 text-sm">Request a new appointment</p>
           </section>
-
           {type !== "cancel" && (
-            <>
+            <div>
               <CustomFormField
                 fieldType={FormFieldType.SELECT}
                 control={form.control}
@@ -198,36 +209,34 @@ const AppointmentForm = ({
                   </SelectItem>
                 ))}
               </CustomFormField>
-            </>
+
+              <CustomFormField
+                fieldType={FormFieldType.DATE_PICKER}
+                control={form.control}
+                name="schedule"
+                label="Expected appointment date"
+                showTimeSelect
+                dateFormat="MM/dd/yyyy - h:mm aa"
+              ></CustomFormField>
+              <div className="flex flex-col gap-6 xl:flex-row">
+                <CustomFormField
+                  fieldType={FormFieldType.TEXTAREA}
+                  control={form.control}
+                  name="reason"
+                  label="Reason for Appointment"
+                  placeholder="Enter reason for appointment"
+                />
+
+                <CustomFormField
+                  fieldType={FormFieldType.TEXTAREA}
+                  control={form.control}
+                  name="note"
+                  label="Notest"
+                  placeholder="Enter notes"
+                />
+              </div>
+            </div>
           )}
-
-          <CustomFormField
-            fieldType={FormFieldType.DATE_PICKER}
-            control={form.control}
-            name="schedule"
-            label="Expected appointment date"
-            showTimeSelect
-            dateFormat="MM/dd/yyyy - h:mm aa"
-          ></CustomFormField>
-
-          <div className="flex flex-col gap-6 xl:flex-row">
-            <CustomFormField
-              fieldType={FormFieldType.TEXTAREA}
-              control={form.control}
-              name="reason"
-              label="Reason for Appointment"
-              placeholder="Enter reason for appointment"
-            />
-
-            <CustomFormField
-              fieldType={FormFieldType.TEXTAREA}
-              control={form.control}
-              name="note"
-              label="Notest"
-              placeholder="Enter notes"
-            />
-          </div>
-
           {type === "cancel" && (
             <CustomFormField
               fieldType={FormFieldType.TEXTAREA}

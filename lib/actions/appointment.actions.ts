@@ -76,7 +76,7 @@ export const getRecentAppointmentList = async () => {
       ...counts,
       documents: appointments.documents,
     };
-
+    revalidatePath("/admin");
     return parseStringify(data);
   } catch (error) {
     console.log(error);
@@ -102,6 +102,24 @@ export const updateAppointment = async ({
 
     revalidatePath("/admin");
     return parseStringify(updatedAppointment);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const cancelAppointment = async ({
+  appointmentId,
+}: {
+  appointmentId: string;
+}) => {
+  try {
+    const deletedDocument = await databases.deleteDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPOINTMENT_COLLECTION_ID!,
+      appointmentId
+    );
+    revalidatePath("/admin");
+    return parseStringify(deletedDocument);
   } catch (error) {
     console.log(error);
   }
