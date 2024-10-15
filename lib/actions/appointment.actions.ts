@@ -1,7 +1,6 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { revalidatePath } from "next/cache";
 
 import { databases } from "../appwrite.config";
 import { CreateAppointmentParams } from "@/types";
@@ -21,7 +20,6 @@ export const createAppointment = async (
       appointment
     );
     console.log("new", newAppointment);
-    revalidatePath("/admin");
     return parseStringify(newAppointment);
   } catch (error) {
     console.error("An error occurred while creating a new appointment:", error);
@@ -72,7 +70,6 @@ export const getRecentAppointmentList = async () => {
       ...counts,
       documents: appointments.documents,
     };
-    revalidatePath("/admin");
     return parseStringify(data);
   } catch (error) {
     console.log(error);
@@ -94,7 +91,6 @@ export const updateAppointment = async ({
       throw new Error("Appointment not found");
     }
 
-    revalidatePath("/admin");
     return parseStringify(updatedAppointment);
   } catch (error) {
     console.log(error);
@@ -112,7 +108,6 @@ export const cancelAppointment = async ({
       process.env.NEXT_PUBLIC_APPOINTMENT_COLLECTION_ID!,
       appointmentId
     );
-    revalidatePath("/admin");
     return parseStringify(deletedDocument);
   } catch (error) {
     console.log(error);
