@@ -47,14 +47,20 @@ export enum FormFieldType {
   SKELETON = "skeleton",
 }
 
+import { Appointment } from "@/types/appwrite.types";
+
 const AppointmentForm = ({
   type,
   userId,
   patientId,
+  appointment,
+  setOpen,
 }: {
   type: "create" | "cancel" | "schedule";
   userId: string;
   patientId: string;
+  appointment?: Appointment;
+  setOpen: (open: boolean) => void;
 }) => {
   // 1. Define your form.
 
