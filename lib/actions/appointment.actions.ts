@@ -1,4 +1,7 @@
+"use server";
+
 import { ID, Query } from "node-appwrite";
+import { revalidatePath } from "next/cache";
 
 import {
   databases,
@@ -8,6 +11,7 @@ import {
 import { CreateAppointmentParams } from "@/types";
 import { parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
+import { UpdateAppointmentParams } from "@/types";
 
 export const createAppointment = async (
   appointment: CreateAppointmentParams
@@ -21,7 +25,7 @@ export const createAppointment = async (
       appointment
     );
     console.log("new", newAppointment);
-    //   revalidatePath("/admin");
+    revalidatePath("/admin");
     return parseStringify(newAppointment);
   } catch (error) {
     console.error("An error occurred while creating a new appointment:", error);
@@ -44,8 +48,8 @@ export const getAppointment = async (appointmentId: string) => {
 export const getRecentAppointmentList = async () => {
   try {
     const appointments = await databases.listDocuments(
-      NEXT_PUBLIC_DATABASE_ID!,
-      NEXT_PUBLIC_APPOINTMENT_COLLECTION_ID!,
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPOINTMENT_COLLECTION_ID!,
       [Query.orderDesc("$createdAt")]
     );
     const initialCounts = {
@@ -72,7 +76,32 @@ export const getRecentAppointmentList = async () => {
       ...counts,
       documents: appointments.documents,
     };
+
     return parseStringify(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateAppointment = async ({
+  appointmentId,
+  userId,
+  appointment,
+  type,
+}: UpdateAppointmentParams) => {
+  try {
+    const updatedAppointment = await databases.updateDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPOINTMENT_COLLECTION_ID!,
+      appointmentId,
+      appointment
+    );
+    if (!updatedAppointment) {
+      throw new Error("Appointment not found");
+    }
+
+    revalidatePath("/admin");
+    return parseStringify(updatedAppointment);
   } catch (error) {
     console.log(error);
   }

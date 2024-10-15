@@ -7,7 +7,7 @@ import { Doctors } from "@/constants";
 import { formatDateTime } from "@/lib/utils";
 import { Appointment } from "@/types/appwrite.types";
 
-import AppointmentModal from "../ui/AppointmentModal";
+import { AppointmentModal } from "../ui/AppointmentModal";
 import StatusBadge from "../ui/StatusBadge";
 
 export const columns: ColumnDef<Appointment>[] = [
