@@ -38,10 +38,6 @@ const PasskeyModal = () => {
       ? window.localStorage.getItem("accessKey")
       : null;
 
-  typeof window !== "undefined"
-    ? window.localStorage.getItem("accessKey")
-    : null;
-
   const closeModal = () => {
     setOpen(false);
     router.push("/");

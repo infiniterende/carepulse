@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { SearchParamProps } from "@/types";
@@ -8,7 +9,7 @@ const NewAppointmentPage = async ({ params: { userId } }: SearchParamProps) => {
   console.log("run");
   console.log("userId", userId);
   const patient = await getPatient(userId);
-  console.log("i", patient);
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
@@ -25,6 +26,7 @@ const NewAppointmentPage = async ({ params: { userId } }: SearchParamProps) => {
             type="create"
             userId={userId}
             patientId={patient?.$id}
+            setOpen={setOpen}
           />
 
           <p className="copyright py-12">© 2024 CarePluse</p>
