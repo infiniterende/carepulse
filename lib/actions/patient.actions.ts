@@ -13,7 +13,6 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
-import User from "@/types";
 // CREATE APPWRITE USER
 
 export interface CreateUserParams {
@@ -55,15 +54,11 @@ export const createUser = async (user: CreateUserParams) => {
     );
 
     return parseStringify(newuser);
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Check existing user
-    if (error && error?.code === 409) {
-      const existingUser = await users.list([
-        Query.equal("email", [user.email]),
-      ]);
+    const existingUser = await users.list([Query.equal("email", [user.email])]);
+    return existingUser.users[0];
 
-      return existingUser.users[0];
-    }
     console.error("An error occurred while creating a new user:", error);
   }
 };
@@ -123,7 +118,6 @@ export const registerPatient = async ({
 
 // GET PATIENT
 export const getPatient = async (userId: string) => {
-  const filters = [sdk.Query.equal("userId", [userId])];
   try {
     console.log("running");
     const patients = await databases.listDocuments(

@@ -3,11 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { revalidatePath } from "next/cache";
 
-import {
-  databases,
-  NEXT_PUBLIC_DATABASE_ID,
-  NEXT_PUBLIC_APPOINTMENT_COLLECTION_ID,
-} from "../appwrite.config";
+import { databases } from "../appwrite.config";
 import { CreateAppointmentParams } from "@/types";
 import { parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
@@ -85,9 +81,7 @@ export const getRecentAppointmentList = async () => {
 
 export const updateAppointment = async ({
   appointmentId,
-  userId,
   appointment,
-  type,
 }: UpdateAppointmentParams) => {
   try {
     const updatedAppointment = await databases.updateDocument(

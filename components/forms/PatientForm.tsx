@@ -7,26 +7,10 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
 import CustomFormField from "../ui/CustomFormField";
-import { Button } from "@/components/ui/button";
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import SubmitButton from "../ui/SubmitButton";
 import { UserFormValidation } from "@/lib/validation";
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
 
 export enum FormFieldType {
   INPUT = "input",

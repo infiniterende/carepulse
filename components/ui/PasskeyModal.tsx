@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -15,7 +14,6 @@ import {
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
@@ -29,9 +27,9 @@ const PasskeyModal = () => {
   const router = useRouter();
   const [open, setOpen] = useState(true);
 
-  const [passkey, setPasskey] = useState<any>();
+  const [passkey, setPasskey] = useState<string>();
 
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<string>();
 
   const path = usePathname();
 
@@ -54,7 +52,7 @@ const PasskeyModal = () => {
   ) => {
     e.preventDefault();
     if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
-      const encryptedKey = encryptKey(passkey);
+      const encryptedKey = encryptKey(passkey!);
       localStorage.setItem("accessKey", encryptedKey);
       setOpen(false);
     } else {

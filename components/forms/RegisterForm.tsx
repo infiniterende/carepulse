@@ -31,6 +31,10 @@ import { CreateUserParams } from "@/types";
 export interface User extends CreateUserParams {
   $id: string;
 }
+type FieldObjectType = {
+  value: File[];
+  onChange: () => void;
+};
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -344,7 +348,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             control={form.control}
             name="identificationDocument"
             label="Scanned Copy of Identification Document"
-            renderSkeleton={(field: any) => (
+            renderSkeleton={(field: FieldObjectType) => (
               <FormControl>
                 <FileUploader files={field.value} onChange={field.onChange} />
               </FormControl>
