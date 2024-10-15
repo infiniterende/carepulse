@@ -6,10 +6,9 @@ import { SearchParamProps } from "@/types";
 import { getPatient } from "@/lib/actions/patient.actions";
 
 const NewAppointmentPage = async ({ params: { userId } }: SearchParamProps) => {
-  console.log("run");
-  console.log("userId", userId);
   const patient = await getPatient(userId);
   const [open, setOpen] = useState(false);
+  console.log(open);
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">

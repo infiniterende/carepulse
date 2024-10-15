@@ -1,5 +1,4 @@
 "use server";
-import * as sdk from "node-appwrite";
 import { ID, Query } from "node-appwrite";
 import { InputFile } from "node-appwrite/file";
 import {
