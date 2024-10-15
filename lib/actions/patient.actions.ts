@@ -120,9 +120,9 @@ export const getPatient = async (userId: string) => {
   try {
     console.log("running");
     const patients = await databases.listDocuments(
-      NEXT_PUBLIC_DATABASE_ID!,
-      NEXT_PUBLIC_PATIENT_COLLECTION_ID!
-      // filters
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_PATIENT_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
     );
     console.log("p", patients);
     return parseStringify(patients.documents[0]);

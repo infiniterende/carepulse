@@ -95,7 +95,7 @@ const PatientForm = () => {
             label="Phone Number"
           />
 
-          <SubmitButton isLoading={isLoading} />
+          <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
         </form>
       </Form>
     </div>

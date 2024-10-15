@@ -1,12 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { SearchParamProps } from "@/types";
 import { getPatient } from "@/lib/actions/patient.actions";
 
-const NewAppointmentPage = async ({ params: { userId } }: SearchParamProps) => {
-  const patient = await getPatient(userId);
+const NewAppointmentPage = ({ params: { userId } }: SearchParamProps) => {
+  const [patient, setPatient] = useState<any>();
+
+  const getPatientInfo = async (userId: any) => {
+    const patient = await getPatient(userId);
+    setPatient(patient);
+  };
+  useEffect(() => {
+    getPatientInfo(userId);
+  }, []);
+  console.log(patient);
   const [open, setOpen] = useState(false);
   console.log(open);
   return (
